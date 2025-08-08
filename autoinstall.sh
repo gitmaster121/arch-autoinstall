@@ -2,7 +2,7 @@
 set -e
 
 # Ustawienia
-DISK="/dev/nvme0n1"
+DISK="/dev/sda"
 HOSTNAME="arch-hyper"
 USERNAME="michal"
 USERPASS="michal1212"
@@ -18,15 +18,15 @@ sgdisk -n 2:0:+55G -t 2:8300 -c 2:"ROOT" "$DISK"
 sgdisk -n 3:0:0    -t 3:8300 -c 3:"HOME" "$DISK"
 
 echo "[+] Formatowanie..."
-mkfs.fat -F32 "${DISK}p1"
-mkfs.ext4 "${DISK}p2"
-mkfs.ext4 "${DISK}p3"
+mkfs.fat -F32 "${DISK}1"
+mkfs.ext4 "${DISK}2"
+mkfs.ext4 "${DISK}3"
 
 echo "[+] Montowanie..."
-mount "${DISK}p2" /mnt
+mount "${DISK}2" /mnt
 mkdir -p /mnt/boot /mnt/home
-mount "${DISK}p1" /mnt/boot
-mount "${DISK}p3" /mnt/home
+mount "${DISK}1" /mnt/boot
+mount "${DISK}3" /mnt/home
 
 echo "[+] Instalacja pakietów podstawowych..."
 pacstrap /mnt base linux linux-firmware networkmanager sudo zsh bash grub efibootmgr intel-ucode vim
